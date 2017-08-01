@@ -15,7 +15,7 @@ class RestaurantController(val jdbcTemplate: JdbcTemplate) {
     @RequestMapping("/env")
     fun greeting(): MutableList<MenuItem>? {
         val menuItem = jdbcTemplate.query(
-                "SELECT * FROM customers")
+                "SELECT * FROM menu_item")
         { rs, rowNum ->
             MenuItem(
                     rs.getInt("id"),
