@@ -16,10 +16,14 @@ class RestaurantDaoImpl(val jdbcTemplate: JdbcTemplate) : RestaurantDao {
     }
 
     override fun findAll(): MutableList<Restaurant> {
-        return jdbcTemplate.queryForList(
-                "SELECT * FROM restaurant",
-                Restaurant::class.java
-        )
+        return jdbcTemplate.query(
+                "SELECT * FROM restaurant") { r, _ ->
+                    Restaurant(
+                            r.getInt("id"),
+                            r.getString("name"),
+                            r.getInt("menu_id")
+                    )
+                }
     }
 
     override fun update(entity: Restaurant): Restaurant? {
