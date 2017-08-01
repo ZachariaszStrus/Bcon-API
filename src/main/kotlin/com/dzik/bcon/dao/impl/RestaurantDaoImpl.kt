@@ -3,7 +3,9 @@ package com.dzik.bcon.dao.impl
 import com.dzik.bcon.dao.RestaurantDao
 import com.dzik.bcon.restaurant.Restaurant
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.stereotype.Repository
 
+@Repository
 class RestaurantDaoImpl(val jdbcTemplate: JdbcTemplate) : RestaurantDao {
     override fun create(entity: Restaurant): Restaurant? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
