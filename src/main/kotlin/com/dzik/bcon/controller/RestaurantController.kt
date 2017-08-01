@@ -3,11 +3,13 @@ package com.dzik.bcon.controller
 import com.dzik.bcon.dao.RestaurantDao
 import com.dzik.bcon.restaurant.Restaurant
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
-@RestController("/restaurants")
+@RestController
+@RequestMapping("/restaurants")
 class RestaurantController(val restaurantDao: RestaurantDao) {
 
     @GetMapping
