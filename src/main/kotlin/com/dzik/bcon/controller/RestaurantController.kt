@@ -1,29 +1,19 @@
 package com.dzik.bcon.controller
 
-import com.dzik.bcon.model.MenuItem
+import com.dzik.bcon.dao.RestaurantDao
+import com.dzik.bcon.restaurant.Restaurant
 import org.slf4j.LoggerFactory
-import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 
-@RestController
-class RestaurantController(val jdbcTemplate: JdbcTemplate) {
+@RestController("/restaurants")
+class RestaurantController(val restaurantDao: RestaurantDao) {
     private val log = LoggerFactory.getLogger(RestaurantController::class.java)
 
-
-    @RequestMapping("/env")
-    fun greeting(): MutableList<MenuItem>? {
-        val menuItem = jdbcTemplate.query(
-                "SELECT * FROM menu_item")
-        { rs, rowNum ->
-            MenuItem(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getFloat("price"),
-                    rs.getInt("menu_id")
-            )
-        }
-        return menuItem
+    @GetMapping
+    fun getAll(): MutableList<Restaurant> {
+        log.info("Restaurant getAll")
+        return restaurantDao.findAll()
     }
 }

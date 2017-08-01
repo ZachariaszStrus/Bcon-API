@@ -5,5 +5,5 @@ data class MenuItem(
         val id: Int,
         val name: String,
         val price: Float,
-        val menuId: Int
+        val menu_id: Int
 )
