@@ -23,4 +23,9 @@ class RestaurantController(val restaurantDao: RestaurantDao) {
     fun getById(@PathVariable id: Int): Restaurant? {
         return restaurantDao.find(id)
     }
+
+    @GetMapping("/env")
+    fun getById(): MutableMap<String, String>? {
+        return System.getenv()
+    }
 }
