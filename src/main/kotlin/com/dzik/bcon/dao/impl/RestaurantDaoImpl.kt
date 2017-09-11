@@ -6,10 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 
-
-
-
-
 @Repository
 class RestaurantDaoImpl(val jdbcTemplate: JdbcTemplate) : RestaurantDao {
     val restaurantMapper = { rs: ResultSet, rn: Int ->
@@ -22,8 +18,7 @@ class RestaurantDaoImpl(val jdbcTemplate: JdbcTemplate) : RestaurantDao {
 
     override fun find(key: Int): Restaurant? {
         return jdbcTemplate.queryForObject(
-                "SELECT * FROM restaurant WHERE id = ? LIMIT 1",
-                arrayOf<Any>(key),
+                "SELECT * FROM restaurant WHERE id = $key LIMIT 1",
                 restaurantMapper
         )
     }
