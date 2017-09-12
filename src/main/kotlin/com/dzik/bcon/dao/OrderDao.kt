@@ -1,7 +1,10 @@
 package com.dzik.bcon.dao
 
 import com.dzik.bcon.model.Order
+import com.dzik.bcon.model.OrderStatus
 import com.dzik.bcon.utils.database.Dao
 
 
-interface OrderDao : Dao<Int, Order>
+interface OrderDao : Dao<Int, Order> {
+    fun findByStatus(status: OrderStatus): MutableList<Order>
+}
