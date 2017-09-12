@@ -1,10 +1,15 @@
 package com.dzik.bcon.controller.order
-
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.dzik.bcon.service.OrderService
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("/orders")
-class OrderController {
+class OrderController(val orderService: OrderService) {
+
+    @PostMapping
+    fun addNewOrder(orderRequest: OrderRequest): Boolean {
+        return this.orderService.addNewOrder(orderRequest)
+    }
+
 }
