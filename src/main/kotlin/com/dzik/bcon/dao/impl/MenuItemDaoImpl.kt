@@ -24,7 +24,10 @@ class MenuItemDaoImpl(private val jdbcTemplate: JdbcTemplate) : MenuItemDao {
     }
 
     override fun find(key: Int): MenuItem? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM menu_item WHERE id = $key LIMIT 1",
+                menuItemMapper
+        )
     }
 
     override fun findAll(): MutableList<MenuItem> {

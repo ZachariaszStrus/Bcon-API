@@ -1,4 +1,6 @@
 package com.dzik.bcon.controller.order
+
+import com.dzik.bcon.model.OrderStatus
 import com.dzik.bcon.service.OrderService
 import org.springframework.web.bind.annotation.*
 
@@ -12,4 +14,8 @@ class OrderController(val orderService: OrderService) {
         return this.orderService.addNewOrder(orderRequest)
     }
 
+    @GetMapping
+    fun getAll(@RequestParam status: OrderStatus?): ArrayList<OrderListItem> {
+        return orderService.getOrderList(status)
+    }
 }
