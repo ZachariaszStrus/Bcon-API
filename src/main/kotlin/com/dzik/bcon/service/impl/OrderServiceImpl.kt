@@ -1,5 +1,7 @@
 package com.dzik.bcon.service.impl
 
+import com.dzik.bcon.controller.order.OrderListItem
+import com.dzik.bcon.controller.order.OrderMenuItem
 import com.dzik.bcon.controller.order.OrderRequest
 import com.dzik.bcon.dao.MenuItemDao
 import com.dzik.bcon.dao.OrderDao
@@ -25,7 +27,7 @@ class OrderServiceImpl(
 
         orders.forEach { order ->
             val orderMenuItems = orderItemDao
-                    .findByOrderId(order.id)
+                    .findByOrderId(order.id!!)
                     .map { orderItem ->
                         val menuItem = menuItemDao.find(orderItem.menu_item_id)
                         if(menuItem != null) OrderMenuItem(menuItem.name, menuItem.price)

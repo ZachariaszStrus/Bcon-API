@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 class OrderController(val orderService: OrderService) {
 
     @PostMapping
-    fun addNewOrder(orderRequest: OrderRequest): Boolean {
+    fun addNewOrder(@RequestBody orderRequest: OrderRequest): Boolean {
         return this.orderService.addNewOrder(orderRequest)
     }
 

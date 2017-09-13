@@ -23,7 +23,7 @@ class OrderItemDaoImpl(private val jdbcTemplate: JdbcTemplate) : OrderItemDao {
     override fun create(entity: OrderItem): OrderItem? {
         return entity.copy(id =
         jdbcTemplate.update("INSERT INTO order_item VALUES (" +
-                "${entity.order_id}, ?${entity.menu_item_id})"))
+                "default, ${entity.order_id}, ${entity.menu_item_id})"))
     }
 
     override fun find(key: Int): OrderItem? {

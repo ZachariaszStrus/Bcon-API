@@ -18,12 +18,14 @@ class OrderDaoImpl(val jdbcTemplate: JdbcTemplate) : OrderDao {
         return jdbcTemplate.query(
                 "SELECT * FROM \"order\" WHERE status = '${status.name}'",
                 orderMapper
-        )    }
+        )
+    }
 
     override fun create(entity: Order): Order? {
         return entity.copy(id =
-        jdbcTemplate.update("INSERT INTO order VALUES (" +
-                "${entity.restaurant_id}, ${entity.table}, ${entity.status.name})"))
+        jdbcTemplate.queryForObject("INSERT INTO \"order\" VALUES (" +
+                "default, ${entity.restaurant_id}, ${entity.table}," +
+                " '${entity.status.name}') RETURNING id", Int::class.java))
     }
 
     override fun find(key: Int): Order? {
