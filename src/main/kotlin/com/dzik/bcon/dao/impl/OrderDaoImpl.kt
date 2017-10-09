@@ -9,6 +9,8 @@ import java.sql.ResultSet
 
 @Repository
 class OrderDaoImpl(val jdbcTemplate: JdbcTemplate) : OrderDao {
+    val TABLE_NAME = "\"order\""
+
     val orderMapper = { rs: ResultSet, rn: Int ->
         Order(rs.getInt("id"), rs.getInt("restaurant_id"),
                 rs.getInt("table"), OrderStatus.valueOf(rs.getString("status")))
@@ -16,31 +18,39 @@ class OrderDaoImpl(val jdbcTemplate: JdbcTemplate) : OrderDao {
 
     override fun findByStatus(status: OrderStatus): MutableList<Order> {
         return jdbcTemplate.query(
-                "SELECT * FROM \"order\" WHERE status = '${status.name}'",
+                "SELECT * FROM $TABLE_NAME WHERE status = '${status.name}'",
                 orderMapper
         )
     }
 
     override fun create(entity: Order): Order? {
         return entity.copy(id =
-        jdbcTemplate.queryForObject("INSERT INTO \"order\" VALUES (" +
+        jdbcTemplate.queryForObject("INSERT INTO $TABLE_NAME VALUES (" +
                 "default, ${entity.restaurant_id}, ${entity.table}," +
                 " '${entity.status.name}') RETURNING id", Int::class.java))
     }
 
     override fun find(key: Int): Order? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM $TABLE_NAME WHERE id = $key LIMIT 1",
+                orderMapper
+        )
     }
 
     override fun findAll(): MutableList<Order> {
         return jdbcTemplate.query(
-                "SELECT * FROM \"order\"",
+                "SELECT * FROM $TABLE_NAME",
                 orderMapper
         )
     }
 
     override fun update(entity: Order): Order? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val newStatusStr = jdbcTemplate.queryForObject(
+                "UPDATE $TABLE_NAME SET status = '${entity.status}' WHERE id = ${entity.id} RETURNING status",
+                String::class.java
+        )
+
+        return entity.copy(status = OrderStatus.valueOf(newStatusStr))
     }
 
     override fun delete(entity: Order): Boolean {
