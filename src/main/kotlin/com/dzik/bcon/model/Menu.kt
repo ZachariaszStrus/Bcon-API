@@ -1,9 +1,6 @@
 package com.dzik.bcon.model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 
 @Entity
@@ -11,6 +8,6 @@ import javax.persistence.Table
 data class Menu (
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int
 )

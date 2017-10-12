@@ -8,7 +8,7 @@ import javax.persistence.*
 data class MenuItem(
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int = 0,
 
         val name: String = "",

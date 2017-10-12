@@ -7,4 +7,5 @@ spring:
     properties:
       hibernate:
         temp:
-          use_jdbc_metadata_defaults: false
+          use_jdbc_meta data_defaults: false
+        show_sql: true

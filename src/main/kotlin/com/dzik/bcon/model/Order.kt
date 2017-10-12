@@ -3,17 +3,17 @@ package com.dzik.bcon.model
 import javax.persistence.*
 
 @Entity
-@Table(name = "`order`")
+@Table(name = "customer_order")
 data class Order (
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = 0,
 
-        @Column(name = "restaurantId")
-        val restaurant_id: Int = 0,
+        @Column(name = "restaurant_id")
+        val restaurantId: Int = 0,
 
-        @Column(name = "`table`")
+        @Column(name = "table_number")
         val table: Int = 0,
 
         @Enumerated(EnumType.STRING)

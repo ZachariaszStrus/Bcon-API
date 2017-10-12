@@ -8,10 +8,10 @@ import javax.persistence.*
 data class OrderItem (
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = 0,
 
-        @Column(name = "order_id")
+        @Column(name = "customer_order_id")
         val orderId: Int = 0,
 
         @Column(name = "menu_item_id")

@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Restaurant (
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int = 0,
 
         var name: String = "",
