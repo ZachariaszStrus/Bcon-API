@@ -5,12 +5,15 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 
-
 @Entity
-@Table(name = "menu")
-data class Menu (
+@Table(name = "system_user")
+data class User (
 
         @Id
         @GeneratedValue
-        var id: Int
+        val id: Int = 0,
+
+        val username: String = "",
+
+        val password: String = ""
 )

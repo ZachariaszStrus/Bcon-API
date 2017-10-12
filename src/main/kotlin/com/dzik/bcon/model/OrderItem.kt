@@ -1,8 +1,19 @@
 package com.dzik.bcon.model
 
+import javax.persistence.*
 
+
+@Entity
+@Table(name = "order_item")
 data class OrderItem (
-        val id: Int?,
-        val order_id: Int,
-        val menu_item_id: Int
+
+        @Id
+        @GeneratedValue
+        val id: Int? = 0,
+
+        @Column(name = "order_id")
+        val orderId: Int = 0,
+
+        @Column(name = "menu_item_id")
+        val menuItemId: Int = 0
 )

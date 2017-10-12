@@ -1,9 +1,19 @@
-package com.dzik.bcon.restaurant
+package com.dzik.bcon.model
+
+import javax.persistence.*
 
 
+@Entity
+@Table(name = "restaurant")
 data class Restaurant (
-        var id: Int,
-        var name: String,
-        var menu_id: Int
+
+        @Id
+        @GeneratedValue
+        var id: Int = 0,
+
+        var name: String = "",
+
+        @Column(name = "menu_id")
+        var menuId: Int = 0
 )
 

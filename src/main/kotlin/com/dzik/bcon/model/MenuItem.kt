@@ -1,9 +1,20 @@
 package com.dzik.bcon.model
 
+import javax.persistence.*
 
+
+@Entity
+@Table(name = "menu_item")
 data class MenuItem(
-        val id: Int,
-        val name: String,
-        val price: Float,
-        val menu_id: Int
+
+        @Id
+        @GeneratedValue
+        val id: Int = 0,
+
+        val name: String = "",
+
+        val price: Float = 0F,
+
+        @Column(name = "menu_id")
+        val menuId: Int = 0
 )
