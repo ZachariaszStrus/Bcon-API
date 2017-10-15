@@ -5,8 +5,10 @@ import com.dzik.bcon.dao.MenuItemRepository
 import com.dzik.bcon.dao.RestaurantRepository
 import com.dzik.bcon.service.RestaurantService
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
+@Transactional
 class RestaurantServiceImpl(
         val restaurantRepository: RestaurantRepository,
         val menuItemRepository: MenuItemRepository

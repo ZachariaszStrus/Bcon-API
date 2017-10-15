@@ -26,15 +26,16 @@ class OrderController(
 
         this.simpMessagingTemplate.convertAndSend(
                 "/topic/orders/" + orderRequest.restaurant_id,
-                this.orderService.getOrderListItem(order!!)
+                GetOrderListResponse(order)
         )
 
         return ResponseEntity.ok(order)
     }
 
     @GetMapping
-    fun getAll(@RequestParam status: OrderStatus?): ResponseEntity<ArrayList<OrderListItem>> {
-        return ResponseEntity.ok(orderService.getOrderList(status))
+    fun getAll(@RequestParam status: OrderStatus?): ResponseEntity<List<GetOrderListResponse>> {
+        val orders = orderService.getOrderList(status)
+        return ResponseEntity.ok(orders.map { o -> GetOrderListResponse(o) })
     }
 
     @PutMapping("/{orderId}")

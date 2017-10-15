@@ -1,7 +1,5 @@
 package com.dzik.bcon.service.impl
 
-import com.dzik.bcon.controller.order.OrderListItem
-import com.dzik.bcon.controller.order.OrderMenuItem
 import com.dzik.bcon.controller.order.OrderRequest
 import com.dzik.bcon.dao.MenuItemRepository
 import com.dzik.bcon.dao.OrderItemRepository
@@ -11,9 +9,10 @@ import com.dzik.bcon.model.OrderItem
 import com.dzik.bcon.model.OrderStatus
 import com.dzik.bcon.service.OrderService
 import org.springframework.stereotype.Service
-//        ?Zaki to pedal
+import javax.transaction.Transactional
 
 @Service
+@Transactional
 class OrderServiceImpl(
         val orderRepository: OrderRepository,
         val orderItemRepository: OrderItemRepository,
@@ -24,31 +23,9 @@ class OrderServiceImpl(
         return orderRepository.save(order.copy(status = newStatus))
     }
 
-    override fun getOrderList(status: OrderStatus?): ArrayList<OrderListItem> {
-        val result = arrayListOf<OrderListItem>()
-
-        val orders =
-                if(status == null) { orderRepository.findAll() }
-                else { orderRepository.findByStatus(status) }
-
-        orders.forEach { result.add(getOrderListItem(it)) }
-        return result
-    }
-
-    override fun getOrderListItem(order: Order): OrderListItem {
-        val orderMenuItems = orderItemRepository
-                .findByOrderId(order.id!!)
-                .map { orderItem ->
-                    val menuItem = menuItemRepository.getOne(orderItem.menuItemId)
-                    if(menuItem != null) OrderMenuItem(menuItem.name, menuItem.price)
-                    else null
-                } as ArrayList<OrderMenuItem?>
-
-        return OrderListItem(
-                        order.id,
-                        order.table,
-                        orderMenuItems
-                )
+    override fun getOrderList(status: OrderStatus?): MutableList<Order> {
+        return if(status == null) { orderRepository.findAll() }
+        else { orderRepository.findByStatus(status) }
     }
 
     override fun addNewOrder(orderRequest: OrderRequest): Order? {

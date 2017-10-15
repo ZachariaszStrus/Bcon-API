@@ -17,6 +17,10 @@ data class Order (
         val table: Int = 0,
 
         @Enumerated(EnumType.STRING)
-        val status: OrderStatus = OrderStatus.PENDING
+        val status: OrderStatus = OrderStatus.PENDING,
+
+        @OneToMany
+        @JoinColumn(name="customer_order_id")
+        val orderItems: Set<OrderItem> = HashSet()
 )
 
