@@ -1,6 +1,6 @@
 package com.dzik.bcon.controller
 
-import com.dzik.bcon.dao.UserRepository
+import com.dzik.bcon.repository.UserRepository
 import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.User
 import org.springframework.http.ResponseEntity

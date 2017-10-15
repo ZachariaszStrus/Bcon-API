@@ -1,9 +1,9 @@
 package com.dzik.bcon.service.impl
 
 import com.dzik.bcon.controller.order.OrderRequest
-import com.dzik.bcon.dao.MenuItemRepository
-import com.dzik.bcon.dao.OrderItemRepository
-import com.dzik.bcon.dao.OrderRepository
+import com.dzik.bcon.repository.MenuItemRepository
+import com.dzik.bcon.repository.OrderItemRepository
+import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.OrderItem
 import com.dzik.bcon.model.OrderStatus
