@@ -1,7 +1,7 @@
 package com.dzik.bcon.repository
 
 import com.dzik.bcon.model.Order
-import com.dzik.bcon.model.OrderStatus
+import com.dzik.bcon.model.utils.OrderStatus
 import org.springframework.data.jpa.repository.JpaRepository
 
 

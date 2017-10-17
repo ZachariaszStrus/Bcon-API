@@ -6,7 +6,7 @@ import com.dzik.bcon.repository.OrderItemRepository
 import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.OrderItem
-import com.dzik.bcon.model.OrderStatus
+import com.dzik.bcon.model.utils.OrderStatus
 import com.dzik.bcon.service.OrderService
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional

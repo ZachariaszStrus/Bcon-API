@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import com.dzik.bcon.model.utils.OrderStatus
 import javax.persistence.*
 
 @Entity

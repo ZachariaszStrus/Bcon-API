@@ -1,4 +1,4 @@
-package com.dzik.bcon.model
+package com.dzik.bcon.model.utils
 
 
 enum class OrderStatus {

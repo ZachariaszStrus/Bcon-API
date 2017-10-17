@@ -1,7 +1,7 @@
 package com.dzik.bcon.controller.order
 
 import com.dzik.bcon.model.Order
-import com.dzik.bcon.model.OrderStatus
+import com.dzik.bcon.model.utils.OrderStatus
 import com.dzik.bcon.service.OrderService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

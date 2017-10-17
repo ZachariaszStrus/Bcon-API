@@ -1,9 +1,8 @@
 package com.dzik.bcon.service
 
-import com.dzik.bcon.controller.order.GetOrderListResponse
 import com.dzik.bcon.controller.order.OrderRequest
 import com.dzik.bcon.model.Order
-import com.dzik.bcon.model.OrderStatus
+import com.dzik.bcon.model.utils.OrderStatus
 
 
 interface OrderService {

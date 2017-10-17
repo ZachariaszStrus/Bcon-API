@@ -5,33 +5,24 @@ import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.User
 import org.springframework.http.ResponseEntity
 import org.springframework.messaging.simp.SimpMessagingTemplate
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/")
 class TestController(
-        val userRepository: UserRepository,
-        val simpMessagingTemplate: SimpMessagingTemplate
+        val userRepository: UserRepository
 ) {
 
-    @GetMapping
-    fun getUsers(): MutableList<User>? {
+    @GetMapping("/")
+    fun home(): MutableList<User>? {
         return userRepository.findAll()
     }
 
-    @PostMapping
-    fun getUsers(@RequestBody user: User): User {
-        return userRepository.save(user)
-    }
-
-    @GetMapping("/{id}")
-    fun sendMessage(@PathVariable id: Int): ResponseEntity<Boolean> {
-        this.simpMessagingTemplate.convertAndSend(
-                "/topic/orders/" + id,
-                Order()
-        )
-
-        return ResponseEntity.ok(true)
+    @GetMapping("/private")
+    fun private(): Any? {
+        return SecurityContextHolder.getContext().authentication.principal
     }
 }
