@@ -17,8 +17,8 @@ class TestController(
 ) {
 
     @GetMapping("/")
-    fun home(): MutableList<User>? {
-        return userRepository.findAll()
+    fun home(): MutableMap<String, String>? {
+        return System.getenv()
     }
 
     @GetMapping("/private")
