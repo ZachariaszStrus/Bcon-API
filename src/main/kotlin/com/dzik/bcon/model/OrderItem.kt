@@ -18,7 +18,6 @@ data class OrderItem (
         @JoinColumn(name = "menu_item_id", insertable = false, updatable = false)
         val menuItem: MenuItem? = null,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name="customer_order_id")
+        @ManyToOne
         val order: Order? = null
 )
