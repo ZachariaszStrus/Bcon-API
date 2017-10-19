@@ -11,13 +11,14 @@ data class OrderItem (
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = 0,
 
-        @Column(name = "customer_order_id")
-        val orderId: Int = 0,
-
         @Column(name = "menu_item_id")
         val menuItemId: Int = 0,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "menu_item_id", insertable = false, updatable = false)
-        val menuItem: MenuItem = MenuItem()
+        val menuItem: MenuItem? = null,
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="customer_order_id")
+        val order: Order? = null
 )

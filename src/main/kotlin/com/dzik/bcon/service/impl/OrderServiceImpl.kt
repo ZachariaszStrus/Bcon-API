@@ -15,8 +15,7 @@ import javax.transaction.Transactional
 @Transactional
 class OrderServiceImpl(
         val orderRepository: OrderRepository,
-        val orderItemRepository: OrderItemRepository,
-        val menuItemRepository: MenuItemRepository
+        val orderItemRepository: OrderItemRepository
 ) : OrderService {
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
         val order = orderRepository.getOne(orderId)
@@ -29,13 +28,17 @@ class OrderServiceImpl(
     }
 
     override fun addNewOrder(orderRequest: OrderRequest): Order? {
-        val order = orderRepository.save(
-                Order(null, orderRequest.restaurant_id, orderRequest.table))
+        val orderItems = orderRequest.orderItemRequestList
+                .map { (menuItemId, _) ->
+                    OrderItem(menuItemId = menuItemId)
+                } .toSet()
 
-        orderRequest.orderItemRequestList.forEach { (menu_id) ->
-            orderItemRepository.save(OrderItem(null, order.id!!, menu_id))
-        }
+        val order = Order(
+                restaurantId = orderRequest.restaurant_id,
+                table = orderRequest.table,
+                orderItems = orderItems
+        )
 
-        return order
+        return orderRepository.save(order)
     }
 }

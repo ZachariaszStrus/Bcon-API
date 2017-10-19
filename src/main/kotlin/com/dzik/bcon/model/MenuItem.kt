@@ -13,8 +13,5 @@ data class MenuItem(
 
         val name: String = "",
 
-        val price: Float = 0F,
-
-        @Column(name = "menu_id")
-        val menuId: Int = 0
+        val price: Float = 0F
 )
