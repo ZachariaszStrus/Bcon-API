@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -12,4 +13,4 @@ data class Role (
 
         @Column(name = "role_name")
         val name: String = ""
-)
+) : Serializable
