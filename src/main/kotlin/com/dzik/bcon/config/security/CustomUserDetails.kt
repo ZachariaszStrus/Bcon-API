@@ -11,7 +11,7 @@ class CustomUserDetails(
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return user.roles
                 .map { role ->
-                    var name = role.name.toUpperCase()
+                    var name = role.name.name.toUpperCase()
                     if(!name.startsWith("ROLE_"))
                         name = "ROLE_" + name
                     SimpleGrantedAuthority(name)

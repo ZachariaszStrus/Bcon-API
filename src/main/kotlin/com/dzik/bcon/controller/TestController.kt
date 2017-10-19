@@ -1,13 +1,11 @@
 package com.dzik.bcon.controller
 
 import com.dzik.bcon.repository.UserRepository
-import com.dzik.bcon.model.Order
-import com.dzik.bcon.model.User
-import org.springframework.http.ResponseEntity
-import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
@@ -16,9 +14,16 @@ class TestController(
         val userRepository: UserRepository
 ) {
 
-    @GetMapping("/")
+    @GetMapping("/test")
+    @PreAuthorize("hasRole('ADMIN')")
     fun home(): MutableMap<String, String>? {
         return System.getenv()
+    }
+
+    @GetMapping("/hello")
+    @PreAuthorize("hasRole('USER')")
+    fun hello(): String {
+        return "hello"
     }
 
     @GetMapping("/private")

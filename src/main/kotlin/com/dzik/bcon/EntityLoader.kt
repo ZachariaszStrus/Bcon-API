@@ -4,9 +4,9 @@ import com.dzik.bcon.model.MenuItem
 import com.dzik.bcon.model.Restaurant
 import com.dzik.bcon.model.Role
 import com.dzik.bcon.model.User
+import com.dzik.bcon.model.utils.UserRoleType
 import com.dzik.bcon.repository.RestaurantRepository
 import com.dzik.bcon.repository.UserRepository
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
@@ -38,7 +38,7 @@ class EntityLoader(
         val user = User(
                 username = "zaki",
                 password = passwordEncoder.encode("1234"),
-                roles = setOf(Role(name = "USER"))
+                roles = listOf(Role(name = UserRoleType.USER))
         )
 
         userRepository.save(user)
