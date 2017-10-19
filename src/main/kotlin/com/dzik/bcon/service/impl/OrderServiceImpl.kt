@@ -14,8 +14,7 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class OrderServiceImpl(
-        val orderRepository: OrderRepository,
-        val orderItemRepository: OrderItemRepository
+        val orderRepository: OrderRepository
 ) : OrderService {
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
         val order = orderRepository.getOne(orderId)
