@@ -9,23 +9,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.core.userdetails.UserDetailsService
+import javax.sql.DataSource
 
 
 @SpringBootApplication
-class BconApplication(val jdbcTemplate: JdbcTemplate) : CommandLineRunner{
-
-    override fun run(vararg p0: String?) {
-        System.out.println(jdbcTemplate)
-    }
-
+class BconApplication(
+        val dataSource: DataSource
+) {
 
     @Autowired
     fun authenticationManager(builder: AuthenticationManagerBuilder,
                               userRepository: UserRepository) {
         builder.userDetailsService(
-                UserDetailsService { username ->
-                    CustomUserDetails(userRepository.findByUsername(username))
-                })
+                        UserDetailsService { username ->
+                            CustomUserDetails(userRepository.findByUsername(username))
+                        })
     }
 }
 
