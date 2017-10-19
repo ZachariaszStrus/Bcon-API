@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/venite
-    username: zaki
-    password: 1234
   jpa:
     properties:
       hibernate:
