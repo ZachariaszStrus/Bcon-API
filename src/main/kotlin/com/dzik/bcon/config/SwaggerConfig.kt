@@ -16,7 +16,6 @@ class SwaggerConfig {
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.dzik.bcon.controller"))
-//                .paths(regex("/product.*"))
                 .build()
 
     }

@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
@@ -11,13 +12,11 @@ data class OrderItem (
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = 0,
 
-        @Column(name = "customer_order_id")
-        val orderId: Int = 0,
-
         @Column(name = "menu_item_id")
         val menuItemId: Int = 0,
 
+        @JsonIgnore
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "menu_item_id", insertable = false, updatable = false)
-        val menuItem: MenuItem = MenuItem()
+        val menuItem: MenuItem? = null
 )

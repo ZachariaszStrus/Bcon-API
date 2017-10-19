@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -16,5 +17,5 @@ data class User (
 
         @OneToMany(fetch = FetchType.EAGER, cascade = arrayOf(CascadeType.ALL))
         @JoinColumn(name="user_id")
-        val roles: Set<Role> = HashSet()
-)
+        val roles: List<Role> = ArrayList()
+) : Serializable

@@ -1,12 +1,10 @@
 package com.dzik.bcon.service.impl
 
 import com.dzik.bcon.controller.order.OrderRequest
-import com.dzik.bcon.repository.MenuItemRepository
-import com.dzik.bcon.repository.OrderItemRepository
-import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.OrderItem
 import com.dzik.bcon.model.utils.OrderStatus
+import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.service.OrderService
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -14,9 +12,7 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class OrderServiceImpl(
-        val orderRepository: OrderRepository,
-        val orderItemRepository: OrderItemRepository,
-        val menuItemRepository: MenuItemRepository
+        val orderRepository: OrderRepository
 ) : OrderService {
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
         val order = orderRepository.getOne(orderId)
@@ -29,13 +25,19 @@ class OrderServiceImpl(
     }
 
     override fun addNewOrder(orderRequest: OrderRequest): Order? {
-        val order = orderRepository.save(
-                Order(null, orderRequest.restaurant_id, orderRequest.table))
+        val order = Order(
+                restaurantId = orderRequest.restaurant_id,
+                table = orderRequest.table,
+                orderItems = emptySet()
+        )
 
-        orderRequest.orderItemRequestList.forEach { (menu_id) ->
-            orderItemRepository.save(OrderItem(null, order.id!!, menu_id))
-        }
+        val orderItems = orderRequest.orderItemRequestList
+                .map { (menuItemId, _) ->
+                    OrderItem(menuItemId = menuItemId)
+                } .toSet()
 
-        return order
+        order.orderItems = orderItems
+
+        return orderRepository.save(order)
     }
 }

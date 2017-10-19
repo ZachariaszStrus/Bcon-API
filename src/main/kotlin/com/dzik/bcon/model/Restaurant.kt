@@ -13,7 +13,8 @@ data class Restaurant (
 
         var name: String = "",
 
-        @Column(name = "menu_id")
-        var menuId: Int = 0
+        @OneToMany(cascade = arrayOf(CascadeType.ALL))
+        @JoinColumn(name="restaurant_id")
+        val menuItems: Set<MenuItem> = HashSet()
 )
 
