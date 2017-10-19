@@ -22,8 +22,12 @@ class AuthorizationServerConfig(
         clients.inMemory()
                 .withClient("my-trusted-client")
                 .secret("secret")
-                .authorizedGrantTypes("refresh_token", "password")
-                .scopes("openid")
+                .authorities("ROLE_CLIENT","ROLE_TRUSTED_CLIENT")
+                .resourceIds("oauth2-resource")
+                .authorizedGrantTypes("password", "refresh_token")
+                .scopes("read", "write")
+                .accessTokenValiditySeconds(30)
+                .refreshTokenValiditySeconds(50000)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
