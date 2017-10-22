@@ -1,18 +1,13 @@
 package com.dzik.bcon.config.security
 
-import com.dzik.bcon.repository.UserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices
-import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import javax.sql.DataSource
 
@@ -21,16 +16,17 @@ import javax.sql.DataSource
 @EnableAuthorizationServer
 class AuthorizationServerConfig(
         val authenticationManager: AuthenticationManager,
-        val dataSource: DataSource,
-        val userRepository: UserRepository
+        val dataSource: DataSource
 ) : AuthorizationServerConfigurerAdapter() {
 
     override fun configure(security: AuthorizationServerSecurityConfigurer) {
-        security.passwordEncoder(passwordEncoder())
+        security
+                .checkTokenAccess("isAuthenticated()")
     }
 
     override fun configure(clients: ClientDetailsServiceConfigurer) {
-        clients.jdbc(dataSource).passwordEncoder(passwordEncoder())
+        clients
+                .inMemory()
                 .withClient("bcon-web-app")
                 .secret("secret")
                 .authorities("ROLE_CLIENT","ROLE_TRUSTED_CLIENT")
@@ -51,20 +47,12 @@ class AuthorizationServerConfig(
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints.authorizationCodeServices(authorizationCodeServices())
+        endpoints
                 .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore())
-                .approvalStoreDisabled()
-
     }
 
     @Bean
     fun tokenStore(): JdbcTokenStore = JdbcTokenStore(dataSource)
 
-    @Bean
-    fun authorizationCodeServices(): AuthorizationCodeServices
-            = JdbcAuthorizationCodeServices(dataSource)
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 }
