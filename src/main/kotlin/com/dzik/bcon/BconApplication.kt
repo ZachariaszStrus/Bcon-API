@@ -5,8 +5,10 @@ import com.dzik.bcon.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
 
@@ -15,16 +17,16 @@ class BconApplication {
 
     @Autowired
     fun authenticationManager(builder: AuthenticationManagerBuilder,
-                              passwordEncoder: PasswordEncoder,
                               userRepository: UserRepository) {
-        val authProvider = DaoAuthenticationProvider()
-        authProvider.setPasswordEncoder(passwordEncoder)
-        authProvider.setUserDetailsService { username ->
-            CustomUserDetails(userRepository.findByUsername(username))
-        }
-        builder.authenticationProvider(authProvider)
-
+        builder
+                .userDetailsService(UserDetailsService { username ->
+                    CustomUserDetails(userRepository.findByUsername(username))
+                })
+                .passwordEncoder(passwordEncoder())
     }
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 }
 
 fun main(args: Array<String>) {
