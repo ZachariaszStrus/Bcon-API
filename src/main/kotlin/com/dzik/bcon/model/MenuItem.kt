@@ -13,5 +13,7 @@ data class MenuItem(
 
         val name: String = "",
 
-        val price: Float = 0F
+        val price: Float = 0F,
+
+        val imageUrl: String = "http://lorempixel.com/400/400/"
 )

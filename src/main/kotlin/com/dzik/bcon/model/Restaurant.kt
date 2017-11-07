@@ -17,7 +17,9 @@ data class Restaurant (
         val menuItems: Set<MenuItem> = HashSet(),
 
         @OneToMany(mappedBy = "restaurant", cascade = arrayOf(CascadeType.ALL))
-        val tables: MutableList<RestaurantTable> = mutableListOf()
+        val tables: MutableList<RestaurantTable> = mutableListOf(),
+
+        val imageUrl: String = "http://lorempixel.com/400/400/"
 ) {
 
 

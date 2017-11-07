@@ -7,11 +7,13 @@ import com.dzik.bcon.model.Restaurant
 data class RestaurantMenuResponse (
         val id: Int,
         val name: String,
-        val menu: Set<MenuItem>
+        val menu: Set<MenuItem>,
+        val imageUrl: String
 ) {
     constructor(restaurant: Restaurant) : this (
             restaurant.id,
             restaurant.name,
-            restaurant.menuItems
+            restaurant.menuItems,
+            restaurant.imageUrl
     )
 }
