@@ -1,6 +1,5 @@
 package com.dzik.bcon.controller.order
 
-import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.utils.OrderStatus
 import com.dzik.bcon.service.OrderService
 import org.springframework.http.HttpStatus
@@ -19,7 +18,7 @@ class OrderController(
 ) {
 
     @PostMapping
-    fun addNewOrder(@RequestBody orderRequest: OrderRequest): ResponseEntity<Order?> {
+    fun addNewOrder(@RequestBody orderRequest: OrderRequest): ResponseEntity<GetOrderListResponse>? {
         val order = this.orderService.addNewOrder(orderRequest)
 
         if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
@@ -29,7 +28,7 @@ class OrderController(
                 GetOrderListResponse(order)
         )
 
-        return ResponseEntity.ok(order)
+        return ResponseEntity.ok(GetOrderListResponse(order))
     }
 
     @GetMapping
@@ -42,10 +41,10 @@ class OrderController(
     fun updateStatus(
             @RequestBody newStatus: OrderStatus,
             @PathVariable orderId: Int
-    ): ResponseEntity<Order?> {
+    ): ResponseEntity<GetOrderListResponse>? {
         val newOrder = this.orderService.updateStatus(orderId, newStatus)
 
         return if(newOrder == null) ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
-        else ResponseEntity.ok(newOrder)
+        else ResponseEntity.ok(GetOrderListResponse(newOrder))
     }
 }

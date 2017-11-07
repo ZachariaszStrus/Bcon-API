@@ -1,10 +1,8 @@
 package com.dzik.bcon
 
-import com.dzik.bcon.model.MenuItem
-import com.dzik.bcon.model.Restaurant
-import com.dzik.bcon.model.Role
-import com.dzik.bcon.model.User
+import com.dzik.bcon.model.*
 import com.dzik.bcon.model.utils.UserRoleType
+import com.dzik.bcon.repository.BeaconRepository
 import com.dzik.bcon.repository.RestaurantRepository
 import com.dzik.bcon.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -16,7 +14,8 @@ import javax.annotation.PostConstruct
 class EntityLoader(
         val restaurantRepository: RestaurantRepository,
         val userRepository: UserRepository,
-        val passwordEncoder: PasswordEncoder
+        val passwordEncoder: PasswordEncoder,
+        val beaconRepository: BeaconRepository
 ) {
 
     @PostConstruct
@@ -28,10 +27,25 @@ class EntityLoader(
         menuItems.add(MenuItem(name = "fryty", price = 4F))
         menuItems.add(MenuItem(name = "pica", price = 5F))
 
-        val restaurant = Restaurant(
+        var beacon = Beacon(
+                namespace = "edd1ebeac04e5defa017",
+                instance = "89fac117b149"
+        )
+
+        var restaurant = Restaurant(
                 name = "U twojej mamy",
                 menuItems = menuItems
         )
+
+        val table = RestaurantTable(
+                number = 4,
+                beacon = beacon,
+                restaurant = restaurant
+        )
+
+        restaurant.tables.add(table)
+
+        beacon.restaurantTable = table
 
         restaurantRepository.save(restaurant)
 

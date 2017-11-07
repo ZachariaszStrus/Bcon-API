@@ -6,13 +6,15 @@ import com.dzik.bcon.model.utils.OrderStatus
 
 data class GetOrderListResponse(
         val id: Int?,
-        val table: Int,
+        val tableNumber: Int,
+        val tableName: String,
         val status: OrderStatus,
         val items: List<GetOrderListItem>
 ) {
     constructor(order: Order) : this(
             order.id,
-            order.table,
+            order.table.number,
+            order.table.name,
             order.status,
             order.orderItems.map { oi ->
                 GetOrderListItem(oi.menuItem?.name, oi.menuItem?.price)
