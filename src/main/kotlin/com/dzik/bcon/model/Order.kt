@@ -11,17 +11,15 @@ data class Order (
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int? = 0,
 
-        @Column(name = "restaurant_id")
-        val restaurantId: Int = 0,
-
-        @Column(name = "table_number")
-        val table: Int = 0,
-
         @Enumerated(EnumType.STRING)
         val status: OrderStatus = OrderStatus.PENDING,
 
         @OneToMany(cascade = arrayOf(CascadeType.ALL))
-        @JoinColumn(name="order_id")
-        var orderItems: Set<OrderItem> = HashSet()
+        @JoinColumn(name = "order_id")
+        var orderItems: Set<OrderItem> = HashSet(),
+
+        @ManyToOne
+        @JoinColumn(name = "table_id")
+        val table: RestaurantTable = RestaurantTable()
 )
 
