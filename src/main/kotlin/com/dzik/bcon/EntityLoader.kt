@@ -70,7 +70,7 @@ class EntityLoader(
 
         var beacon2 = Beacon(
                 namespace = "edd1ebeac04e5defa017",
-                instance = "37a3c9031e1"
+                instance = "b37a3c9031e1"
         )
 
         var restaurant2 = Restaurant(
