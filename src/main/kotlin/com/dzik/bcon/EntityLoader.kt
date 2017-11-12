@@ -20,6 +20,19 @@ class EntityLoader(
 
     @PostConstruct
     fun init() {
+        val user = User(
+                username = "zaki",
+                password = passwordEncoder.encode("1234"),
+                roles = listOf(Role(name = UserRoleType.USER))
+        )
+
+        userRepository.save(user)
+
+        save1()
+        save2()
+    }
+
+    fun save1() {
         val menuItems = HashSet<MenuItem>()
         menuItems.add(MenuItem(name = "Kotlet schabowy", price = 15.99F))
         menuItems.add(MenuItem(name = "Naleśniki z pasztetem", price = 18.99F))
@@ -46,20 +59,14 @@ class EntityLoader(
         beacon.restaurantTable = table
 
         restaurantRepository.save(restaurant)
+    }
 
-        val user = User(
-                username = "zaki",
-                password = passwordEncoder.encode("1234"),
-                roles = listOf(Role(name = UserRoleType.USER))
+    fun save2() {
+        val menuItems2 = hashSetOf(
+                MenuItem(name = "Cheeseburger", price = 4.95F),
+                MenuItem(name = "Fries", price = 3.50F),
+                MenuItem(name = "Hot Dog", price = 4.39F)
         )
-
-        userRepository.save(user)
-
-
-        val menuItems2 = HashSet<MenuItem>()
-        menuItems.add(MenuItem(name = "Cheeseburger", price = 4.95F))
-        menuItems.add(MenuItem(name = "Fries", price = 3.50F))
-        menuItems.add(MenuItem(name = "Hot Dog", price = 4.39F))
 
         var beacon2 = Beacon(
                 namespace = "edd1ebeac04e5defa017",
@@ -68,13 +75,13 @@ class EntityLoader(
 
         var restaurant2 = Restaurant(
                 name = "Dais'y Comfort Food",
-                menuItems = menuItems
+                menuItems = menuItems2
         )
 
         val table2 = RestaurantTable(
                 number = 4,
-                beacon = beacon,
-                restaurant = restaurant
+                beacon = beacon2,
+                restaurant = restaurant2
         )
 
         restaurant2.tables.add(table2)
