@@ -7,6 +7,6 @@ import com.dzik.bcon.model.utils.OrderStatus
 
 interface OrderService {
     fun addNewOrder(orderRequest: OrderRequest): Order?
-    fun getOrderList(status: OrderStatus?): MutableList<Order>
+    fun getOrderList(status: OrderStatus?): List<Order>
     fun updateStatus(orderId: Int, newStatus: OrderStatus): Order?
 }

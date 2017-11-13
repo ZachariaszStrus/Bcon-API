@@ -20,19 +20,36 @@ class EntityLoader(
 
     @PostConstruct
     fun init() {
+        val r1 = save1()
+        val r2 = save2()
+
         val user = User(
                 username = "zaki",
                 password = passwordEncoder.encode("1234"),
-                roles = listOf(Role(name = UserRoleType.USER))
+                roles = listOf(
+                        Role(
+                                name = UserRoleType.RESTAURANT_EMPLOYEE,
+                                restaurantId = r1?.id
+                        )
+                )
+        )
+
+        val user2 = User(
+                username = "kuba",
+                password = passwordEncoder.encode("1234"),
+                roles = listOf(
+                        Role(
+                                name = UserRoleType.RESTAURANT_EMPLOYEE,
+                                restaurantId = r2?.id
+                        )
+                )
         )
 
         userRepository.save(user)
-
-        save1()
-        save2()
+        userRepository.save(user2)
     }
 
-    fun save1() {
+    fun save1(): Restaurant? {
         val menuItems = HashSet<MenuItem>()
         menuItems.add(MenuItem(name = "Kotlet schabowy", price = 15.99F))
         menuItems.add(MenuItem(name = "Naleśniki z pasztetem", price = 18.99F))
@@ -58,10 +75,10 @@ class EntityLoader(
 
         beacon.restaurantTable = table
 
-        restaurantRepository.save(restaurant)
+        return restaurantRepository.save(restaurant)
     }
 
-    fun save2() {
+    fun save2(): Restaurant? {
         val menuItems2 = hashSetOf(
                 MenuItem(name = "Cheeseburger", price = 4.95F),
                 MenuItem(name = "Fries", price = 3.50F),
@@ -88,6 +105,6 @@ class EntityLoader(
 
         beacon2.restaurantTable = table2
 
-        restaurantRepository.save(restaurant2)
+        return restaurantRepository.save(restaurant2)
     }
 }

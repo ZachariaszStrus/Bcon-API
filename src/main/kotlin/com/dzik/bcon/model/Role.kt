@@ -14,5 +14,7 @@ data class Role (
 
         @Enumerated(EnumType.STRING)
         @Column(name = "role_name")
-        val name: UserRoleType = UserRoleType.USER
+        val name: UserRoleType = UserRoleType.USER,
+
+        val restaurantId: Int? = null
 ) : Serializable

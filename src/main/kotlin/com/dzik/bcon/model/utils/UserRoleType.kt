@@ -1,5 +1,7 @@
 package com.dzik.bcon.model.utils
 
 enum class UserRoleType {
-    USER
+    USER,
+    RESTAURANT_MANAGER,
+    RESTAURANT_EMPLOYEE
 }
