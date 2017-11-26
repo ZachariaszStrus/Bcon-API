@@ -20,6 +20,8 @@ class ResourceServerConfig(
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
+//                .antMatchers("/topic").hasRole(UserRoleType.RESTAURANT_EMPLOYEE.toString())
+//                .antMatchers("/stomp-endpoint").hasRole(UserRoleType.RESTAURANT_EMPLOYEE.toString())
                 .antMatchers("/").permitAll()
     }
 }
