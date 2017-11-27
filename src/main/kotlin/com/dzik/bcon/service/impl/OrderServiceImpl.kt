@@ -6,6 +6,7 @@ import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.OrderItem
 import com.dzik.bcon.model.utils.OrderStatus
 import com.dzik.bcon.model.utils.UserRoleType
+import com.dzik.bcon.repository.MenuItemRepository
 import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.repository.RestaurantRepository
 import com.dzik.bcon.repository.TableRepository
@@ -20,8 +21,10 @@ import javax.transaction.Transactional
 class OrderServiceImpl(
         val orderRepository: OrderRepository,
         val tableRepository: TableRepository,
-        val restaurantRepository: RestaurantRepository
+        val restaurantRepository: RestaurantRepository,
+        val menuItemRepository: MenuItemRepository
 ) : OrderService {
+
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
         val userDetails = SecurityContextHolder.getContext().authentication.principal as CustomUserDetails
         val restaurantRole = userDetails.user.roles.first { it.name == UserRoleType.RESTAURANT_EMPLOYEE }
@@ -61,7 +64,10 @@ class OrderServiceImpl(
 
         val orderItems = orderRequest.orderItemRequestList
                 .map { (menuItemId, _) ->
-                    OrderItem(menuItemId = menuItemId)
+                    OrderItem(
+                            menuItemId = menuItemId,
+                            menuItem = menuItemRepository.findOne(menuItemId)
+                    )
                 } .toSet()
 
         order.orderItems = orderItems

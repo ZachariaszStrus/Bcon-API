@@ -16,7 +16,7 @@ data class OrderItem (
         val menuItemId: Int = 0,
 
         @JsonIgnore
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "menu_item_id", insertable = false, updatable = false)
         val menuItem: MenuItem? = null
 )

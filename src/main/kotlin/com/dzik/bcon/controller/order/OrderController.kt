@@ -50,5 +50,4 @@ class OrderController(
         else ResponseEntity.ok(GetOrderListResponse(newOrder))
     }
 
-
 }
