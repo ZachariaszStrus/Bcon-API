@@ -14,7 +14,7 @@ data class Restaurant (
 
         @OneToMany(cascade = arrayOf(CascadeType.ALL))
         @JoinColumn(name="restaurant_id")
-        val menuItems: Set<MenuItem> = HashSet(),
+        var menuItems: Set<MenuItem> = HashSet(),
 
         @OneToMany(mappedBy = "restaurant", cascade = arrayOf(CascadeType.ALL))
         val tables: MutableList<RestaurantTable> = mutableListOf(),

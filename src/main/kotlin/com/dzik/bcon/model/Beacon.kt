@@ -1,5 +1,7 @@
 package com.dzik.bcon.model
 
+import com.dzik.bcon.controller.restaurant.BeaconDTO
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
@@ -12,12 +14,19 @@ data class Beacon (
 
         var namespace: String = "",
 
+        @Column(unique = true)
         var instance: String = "",
 
+        @JsonIgnore
         @OneToOne
         var restaurantTable: RestaurantTable? = null
 
 ) {
+        constructor(beaconDTO: BeaconDTO) : this(
+                namespace = beaconDTO.nameSpace,
+                instance = beaconDTO.instance
+        )
+
         override fun equals(other: Any?): Boolean {
                 if (this === other) return true
                 if (javaClass != other?.javaClass) return false

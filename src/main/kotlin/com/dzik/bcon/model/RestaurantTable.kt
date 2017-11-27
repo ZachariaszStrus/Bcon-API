@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
@@ -17,6 +18,7 @@ data class RestaurantTable(
         @OneToOne(mappedBy = "restaurantTable", cascade = arrayOf(CascadeType.ALL))
         var beacon: Beacon = Beacon(),
 
+        @JsonIgnore
         @ManyToOne
         val restaurant: Restaurant = Restaurant()
 
