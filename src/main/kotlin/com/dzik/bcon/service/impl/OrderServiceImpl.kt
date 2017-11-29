@@ -63,7 +63,8 @@ class OrderServiceImpl(
 
         val order = Order(
                 table = beacon.restaurantTable!!,
-                orderItems = emptySet()
+                orderItems = emptySet(),
+                fcmToken = orderRequest.fcmToken
         )
 
         val orderItems = orderRequest.orderItemRequestList

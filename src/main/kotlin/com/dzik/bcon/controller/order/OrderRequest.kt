@@ -4,5 +4,7 @@ data class OrderRequest (
 
         val beaconUID: BeaconUID = BeaconUID(),
 
-        val orderItemRequestList: List<OrderItemRequest> = emptyList()
+        val orderItemRequestList: List<OrderItemRequest> = emptyList(),
+
+        val fcmToken: String = ""
 )

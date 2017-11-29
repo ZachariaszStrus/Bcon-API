@@ -20,6 +20,8 @@ data class Order (
 
         @ManyToOne
         @JoinColumn(name = "table_id")
-        val table: RestaurantTable = RestaurantTable()
+        val table: RestaurantTable = RestaurantTable(),
+
+        val fcmToken: String = ""
 )
 
