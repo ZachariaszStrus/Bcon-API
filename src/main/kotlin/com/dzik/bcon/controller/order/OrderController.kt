@@ -18,17 +18,18 @@ class OrderController(
 ) : BaseController() {
 
     @PostMapping
-    fun addNewOrder(@RequestBody orderRequest: OrderRequest): ResponseEntity<GetOrderListResponse>? {
+    fun addNewOrder(@RequestBody orderRequest: OrderRequest): ResponseEntity<GetOrderListResponse?> {
         val order = this.orderService.addNewOrder(orderRequest)
+                ?: return notFound()
 
-        if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
+        val response = GetOrderListResponse(order)
 
         this.simpMessagingTemplate.convertAndSend(
-                "/topic/orders/" + orderRequest.restaurant_id,
-                GetOrderListResponse(order)
+                "/topic/orders/" + order.table.restaurant.id,
+                response
         )
 
-        return ResponseEntity.ok(GetOrderListResponse(order))
+        return ok(response)
     }
 
     @GetMapping

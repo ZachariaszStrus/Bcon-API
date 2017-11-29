@@ -6,10 +6,10 @@ import com.dzik.bcon.model.Order
 import com.dzik.bcon.model.OrderItem
 import com.dzik.bcon.model.utils.OrderStatus
 import com.dzik.bcon.model.utils.UserRoleType
+import com.dzik.bcon.repository.BeaconRepository
 import com.dzik.bcon.repository.MenuItemRepository
 import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.repository.RestaurantRepository
-import com.dzik.bcon.repository.TableRepository
 import com.dzik.bcon.service.OrderService
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException
@@ -20,9 +20,9 @@ import javax.transaction.Transactional
 @Transactional
 class OrderServiceImpl(
         val orderRepository: OrderRepository,
-        val tableRepository: TableRepository,
         val restaurantRepository: RestaurantRepository,
-        val menuItemRepository: MenuItemRepository
+        val menuItemRepository: MenuItemRepository,
+        val beaconRepository: BeaconRepository
 ) : OrderService {
 
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
@@ -53,12 +53,16 @@ class OrderServiceImpl(
     }
 
     override fun addNewOrder(orderRequest: OrderRequest): Order? {
-        val restaurant = restaurantRepository.findOne(orderRequest.restaurant_id)
+        val beacon = beaconRepository
+                .findByNamespaceAndInstance(
+                        orderRequest.beaconUID.namespace,
+                        orderRequest.beaconUID.instance
+                ) ?: return null
 
-        val table = tableRepository.findByNumberAndRestaurant(orderRequest.table, restaurant)
+        beacon.restaurantTable ?: return null
 
         val order = Order(
-                table = table,
+                table = beacon.restaurantTable!!,
                 orderItems = emptySet()
         )
 
