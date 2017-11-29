@@ -77,4 +77,10 @@ class RestaurantController(
             notFound()
         }
     }
+
+    @GetMapping("/beacons")
+    fun getBeacons() = ok(restaurantService.getBeacons())
+
+    @GetMapping("/tables")
+    fun getTables() = ok(restaurantService.getTables())
 }

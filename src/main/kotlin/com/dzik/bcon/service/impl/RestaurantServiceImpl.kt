@@ -21,27 +21,49 @@ class RestaurantServiceImpl(
         val restaurantRepository: RestaurantRepository,
         val beaconRepository: BeaconRepository
 ) : RestaurantService {
+
+    override fun getTables(): List<TableDTO> {
+        val restaurant = getRestaurantByPrincipal() ?: return emptyList()
+
+        return restaurant.tables.map { TableDTO(it) }
+    }
+
+    override fun getBeacons(): List<BeaconDTO> {
+        val restaurant = getRestaurantByPrincipal() ?: return emptyList()
+
+        return beaconRepository.findByRestaurant(restaurant)
+                .map { BeaconDTO(it) }
+    }
+
     override fun addTable(tableDTO: TableDTO): RestaurantTable? {
-        val restaurant = getRestaurant() ?: return null
+        val restaurant = getRestaurantByPrincipal() ?: return null
 
         val beacon = beaconRepository.findOne(tableDTO.beaconId) ?: return null
 
-        restaurant.tables.add(RestaurantTable(
+        if(beacon.restaurant != restaurant || beacon.restaurantTable != null) return null
+
+        val table = RestaurantTable(
                 number = tableDTO.number,
                 name = tableDTO.name,
                 beacon = beacon,
                 restaurant = restaurant
-        ))
+        )
+
+        beacon.restaurantTable = table
+
+        restaurant.tables.add(table)
 
         return restaurantRepository.save(restaurant).tables.firstOrNull { it.number == tableDTO.number }
     }
 
     override fun addBeacon(beaconDTO: BeaconDTO): Beacon? {
-        return beaconRepository.save(Beacon(beaconDTO))
+        val restaurant = getRestaurantByPrincipal() ?: return null
+
+        return beaconRepository.save(Beacon(beaconDTO, restaurant))
     }
 
     override fun updateMenu(menuItems: Set<MenuItem>): Restaurant? {
-        val restaurant = getRestaurant() ?: return null
+        val restaurant = getRestaurantByPrincipal() ?: return null
 
         restaurant.menuItems = menuItems
 
@@ -49,16 +71,7 @@ class RestaurantServiceImpl(
     }
 
     override fun getRestaurant(): Restaurant? {
-        val userDetails = SecurityContextHolder.getContext().authentication.principal
-                as CustomUserDetails
-        val restaurantRole = userDetails.user.roles
-                .firstOrNull { it.name == UserRoleType.RESTAURANT_EMPLOYEE }
-
-        return if(restaurantRole != null) {
-            return restaurantRepository.getOne(restaurantRole.restaurantId)
-        } else {
-            null
-        }
+        return getRestaurantByPrincipal()
     }
 
     override fun getRestaurantMenu(id: Int): Restaurant? {
@@ -70,5 +83,16 @@ class RestaurantServiceImpl(
                 .findByNamespaceAndInstance(beaconNamespace, beaconInstance)
 
         return beacon?.restaurantTable?.restaurant
+    }
+
+    private fun getRestaurantByPrincipal(): Restaurant? {
+        val userDetails = SecurityContextHolder.getContext().authentication.principal
+                as CustomUserDetails
+
+        val restaurantRole = userDetails.user.roles
+                .firstOrNull { it.name == UserRoleType.RESTAURANT_EMPLOYEE }
+                ?: return null
+
+        return restaurantRepository.getOne(restaurantRole.restaurantId)
     }
 }

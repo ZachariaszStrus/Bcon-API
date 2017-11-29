@@ -12,6 +12,12 @@ import org.springframework.security.access.prepost.PreAuthorize
 interface RestaurantService {
 
     @PreAuthorize("isAuthenticated()")
+    fun getTables(): List<TableDTO>
+
+    @PreAuthorize("isAuthenticated()")
+    fun getBeacons(): List<BeaconDTO>
+
+    @PreAuthorize("isAuthenticated()")
     fun addTable(tableDTO: TableDTO): RestaurantTable?
 
     @PreAuthorize("isAuthenticated()")

@@ -55,14 +55,15 @@ class EntityLoader(
         menuItems.add(MenuItem(name = "Naleśniki z pasztetem", price = 18.99F))
         menuItems.add(MenuItem(name = "Pierogi ruskie", price = 14.99F))
 
-        var beacon = Beacon(
-                namespace = "edd1ebeac04e5defa017",
-                instance = "89fac117b149"
-        )
-
         var restaurant = Restaurant(
                 name = "Jak w domu",
                 menuItems = menuItems
+        )
+
+        var beacon = Beacon(
+                namespace = "edd1ebeac04e5defa017",
+                instance = "89fac117b149",
+                restaurant = restaurant
         )
 
         val table = RestaurantTable(
@@ -85,14 +86,15 @@ class EntityLoader(
                 MenuItem(name = "Hot Dog", price = 4.39F)
         )
 
-        var beacon2 = Beacon(
-                namespace = "edd1ebeac04e5defa017",
-                instance = "b37a3c9031e1"
-        )
-
         var restaurant2 = Restaurant(
                 name = "Dais'y Comfort Food",
                 menuItems = menuItems2
+        )
+
+        var beacon2 = Beacon(
+                namespace = "edd1ebeac04e5defa017",
+                instance = "b37a3c9031e1",
+                restaurant = restaurant2
         )
 
         val table2 = RestaurantTable(

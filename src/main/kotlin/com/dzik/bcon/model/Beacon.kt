@@ -19,12 +19,17 @@ data class Beacon (
 
         @JsonIgnore
         @OneToOne
-        var restaurantTable: RestaurantTable? = null
+        var restaurantTable: RestaurantTable? = null,
+
+        @JsonIgnore
+        @OneToOne
+        var restaurant: Restaurant = Restaurant()
 
 ) {
-        constructor(beaconDTO: BeaconDTO) : this(
-                namespace = beaconDTO.nameSpace,
-                instance = beaconDTO.instance
+        constructor(beaconDTO: BeaconDTO, restaurant: Restaurant) : this(
+                namespace = beaconDTO.namespace,
+                instance = beaconDTO.instance,
+                restaurant = restaurant
         )
 
         override fun equals(other: Any?): Boolean {

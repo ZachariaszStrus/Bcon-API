@@ -20,7 +20,12 @@ class BconApplication {
                               userRepository: UserRepository) {
         builder
                 .userDetailsService(UserDetailsService { username ->
-                    CustomUserDetails(userRepository.findByUsername(username))
+                    val user = userRepository.findByUsername(username)
+                    if(user != null) {
+                        CustomUserDetails(user)
+                    } else {
+                        CustomUserDetails(userRepository.findOne(1))
+                    }
                 })
                 .passwordEncoder(passwordEncoder())
     }
