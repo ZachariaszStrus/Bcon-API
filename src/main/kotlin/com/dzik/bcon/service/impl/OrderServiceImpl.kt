@@ -11,6 +11,8 @@ import com.dzik.bcon.repository.MenuItemRepository
 import com.dzik.bcon.repository.OrderRepository
 import com.dzik.bcon.repository.RestaurantRepository
 import com.dzik.bcon.service.OrderService
+import com.dzik.bcon.service.firebase.AndroidPushNotificationsService
+import com.dzik.bcon.service.firebase.FirebaseMessage
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException
 import org.springframework.stereotype.Service
@@ -22,7 +24,8 @@ class OrderServiceImpl(
         val orderRepository: OrderRepository,
         val restaurantRepository: RestaurantRepository,
         val menuItemRepository: MenuItemRepository,
-        val beaconRepository: BeaconRepository
+        val beaconRepository: BeaconRepository,
+        val androidPushNotificationsService: AndroidPushNotificationsService
 ) : OrderService {
 
     override fun updateStatus(orderId: Int, newStatus: OrderStatus): Order? {
@@ -33,6 +36,14 @@ class OrderServiceImpl(
 
         if(order.table.restaurant.id != restaurantRole.restaurantId) {
             throw UnauthorizedUserException("Unauthorized")
+        }
+
+        if(order.fcmToken.isNotBlank()) {
+            androidPushNotificationsService.sendMessage(FirebaseMessage(
+                    to = order.fcmToken,
+                    title = "Status update",
+                    body = newStatus.toString()
+            ))
         }
 
         return orderRepository.save(order.copy(status = newStatus))

@@ -28,4 +28,7 @@ class AndroidPushNotificationsService {
         return CompletableFuture.completedFuture(firebaseResponse)
     }
 
+    fun sendMessage(message: FirebaseMessage): CompletableFuture<FirebaseResponse> {
+        return send(HttpEntity(message))
+    }
 }
