@@ -1,33 +1,46 @@
 package com.dzik.bcon.controller
 
 import com.dzik.bcon.repository.UserRepository
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.GetMapping
+import com.dzik.bcon.service.firebase.AndroidPushNotificationsService
+import com.dzik.bcon.service.firebase.FirebaseMessage
+import com.dzik.bcon.service.firebase.FirebaseResponse
+import org.springframework.http.HttpEntity
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.CompletableFuture
 
 
 @RestController
 @RequestMapping("/")
 class TestController(
-        val userRepository: UserRepository
-) {
+        val userRepository: UserRepository,
+        val androidPushNotificationsService: AndroidPushNotificationsService
+) : BaseController(){
 
-    @GetMapping("/test")
-    @PreAuthorize("hasRole('ADMIN')")
-    fun home(): MutableMap<String, String>? {
-        return System.getenv()
-    }
+    @RequestMapping(value = "/send", method = arrayOf(RequestMethod.GET), produces = arrayOf("application/json"))
+    fun send(): ResponseEntity<FirebaseResponse?> {
 
-    @GetMapping("/hello")
-    @PreAuthorize("hasRole('USER')")
-    fun hello(): String {
-        return "hello"
-    }
+        val notification = FirebaseMessage(
+                to = "eskqBU9x7Fo:APA91bHmd3gHVX5rMyUNb7x74DERFz-es2OKiClRtpchD9NvHjDzqwsZcbfxs7QbKowqr-ohehIdrCq-9S87p88EOG9t06bSsaPhTGDRB6Dx3WVrkZC_Bt6obyuVJ5lOZv9OW8lXqvWp",
+                title = "hej",
+                body = "hej body"
+        )
 
-    @GetMapping("/private")
-    fun private(): Any? {
-        return SecurityContextHolder.getContext().authentication.principal
+        val request = HttpEntity(notification)
+
+        val pushNotification = androidPushNotificationsService.send(request)
+        CompletableFuture.allOf(pushNotification).join()
+
+        try {
+            val firebaseResponse = pushNotification.get()
+            return ok(firebaseResponse)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return notFound()
     }
 }

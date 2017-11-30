@@ -117,7 +117,7 @@
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

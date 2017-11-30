@@ -7,3 +7,5 @@ spring:
         show_sql: true
         hbm2ddl:
           auto: create-drop
+firebase:
+  server_key: AAAAxHozBo0:APA91bHO-8wyUJ4CNb54vXZ9mgp24L6cBs_RZbdZZcCdgFIljl3-afBozCcX0YqfKWa_K-AiJ0Za8umqxIPq7hjeud2iBZIgIz9HwHbJgOVh6gcMI1ixh2Ezq4FTsR5UID8qyRmRyR4u
