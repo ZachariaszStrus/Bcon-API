@@ -12,11 +12,11 @@ data class Restaurant (
 
         var name: String = "",
 
-        @OneToMany(cascade = arrayOf(CascadeType.ALL))
+        @OneToMany(cascade = [(CascadeType.ALL)])
         @JoinColumn(name="restaurant_id")
         var menuItems: Set<MenuItem> = HashSet(),
 
-        @OneToMany(mappedBy = "restaurant", cascade = arrayOf(CascadeType.ALL))
+        @OneToMany(mappedBy = "restaurant", cascade = [(CascadeType.ALL)])
         val tables: MutableList<RestaurantTable> = mutableListOf(),
 
         val imageUrl: String = "http://lorempixel.com/400/400/"

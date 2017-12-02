@@ -14,7 +14,7 @@ data class Order (
         @Enumerated(EnumType.STRING)
         val status: OrderStatus = OrderStatus.PENDING,
 
-        @OneToMany(cascade = arrayOf(CascadeType.ALL))
+        @OneToMany(cascade = [(CascadeType.ALL)])
         @JoinColumn(name = "order_id")
         var orderItems: Set<OrderItem> = HashSet(),
 

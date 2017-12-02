@@ -15,7 +15,7 @@ data class User (
 
         val password: String = "",
 
-        @OneToMany(fetch = FetchType.EAGER, cascade = arrayOf(CascadeType.ALL))
+        @OneToMany(fetch = FetchType.EAGER, cascade = [(CascadeType.ALL)])
         @JoinColumn(name="user_id")
         val roles: List<Role> = ArrayList()
 ) : Serializable

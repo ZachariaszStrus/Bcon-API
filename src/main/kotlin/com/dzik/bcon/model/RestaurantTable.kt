@@ -15,7 +15,7 @@ data class RestaurantTable(
 
         val name: String = "RestaurantTable",
 
-        @OneToOne(mappedBy = "restaurantTable", cascade = arrayOf(CascadeType.ALL))
+        @OneToOne(mappedBy = "restaurantTable", cascade = [(CascadeType.ALL)])
         var beacon: Beacon = Beacon(),
 
         @JsonIgnore

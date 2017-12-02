@@ -2,6 +2,7 @@ package com.dzik.bcon.config
 
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import java.io.IOException
 import javax.servlet.*
@@ -17,8 +18,8 @@ class CustomCorsFilter : Filter {
     override fun doFilter(req: ServletRequest, res: ServletResponse, chain: FilterChain) {
         val response = res as HttpServletResponse
         val request = req as HttpServletRequest
-        response.setHeader("Access-Control-Allow-Origin",
-                "http://localhost:4200")
+        val origin = request.getHeader(HttpHeaders.ORIGIN)
+        response.setHeader("Access-Control-Allow-Origin", origin)
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE")
         response.setHeader("Access-Control-Max-Age", "4800")
         response.setHeader("Access-Control-Allow-Headers",
