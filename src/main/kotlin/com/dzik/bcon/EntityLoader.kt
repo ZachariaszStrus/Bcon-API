@@ -89,7 +89,7 @@ class EntityLoader(
 
         val table2 = RestaurantTable(
                 number = 2,
-                beacon = beacon,
+                beacon = beacon2,
                 restaurant = restaurant
         )
 
