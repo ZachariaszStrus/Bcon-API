@@ -61,6 +61,8 @@ class EntityLoader(
                 imageUrl = "http://lorempixel.com/1067/600/food/"
         )
 
+        // Beacon 1 / table 1
+
         var beacon = Beacon(
                 namespace = "edd1ebeac04e5defa017",
                 instance = "89fac117b149",
@@ -68,14 +70,32 @@ class EntityLoader(
         )
 
         val table = RestaurantTable(
-                number = 4,
+                number = 1,
                 beacon = beacon,
                 restaurant = restaurant
         )
 
+        beacon.restaurantTable = table
+
         restaurant.tables.add(table)
 
-        beacon.restaurantTable = table
+        // Beacon 2 / table 2
+
+        var beacon2 = Beacon(
+                namespace = "edd1ebeac04e5defa017",
+                instance = "66a3678ef96b",
+                restaurant = restaurant
+        )
+
+        val table2 = RestaurantTable(
+                number = 2,
+                beacon = beacon,
+                restaurant = restaurant
+        )
+
+        beacon2.restaurantTable = table2
+
+        restaurant.tables.add(table2)
 
         return restaurantRepository.save(restaurant)
     }
