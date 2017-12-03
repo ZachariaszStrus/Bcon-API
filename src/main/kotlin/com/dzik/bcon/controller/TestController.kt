@@ -14,10 +14,5 @@ class TestController(
         val androidPushNotificationsService: AndroidPushNotificationsService
 ) : BaseController(){
 
-    @GetMapping
-    fun a(): String {
-        return "chuj"
-    }
-
 
 }
