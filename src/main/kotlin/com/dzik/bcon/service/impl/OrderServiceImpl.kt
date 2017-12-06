@@ -79,10 +79,11 @@ class OrderServiceImpl(
         )
 
         val orderItems = orderRequest.orderItemRequestList
-                .map { (menuItemId, _) ->
+                .map {
                     OrderItem(
-                            menuItemId = menuItemId,
-                            menuItem = menuItemRepository.findOne(menuItemId)
+                            menuItemId = it.menuItemId,
+                            menuItem = menuItemRepository.findOne(it.menuItemId),
+                            quantity = it.quantity
                     )
                 } .toSet()
 

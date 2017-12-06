@@ -17,12 +17,13 @@ data class GetOrderListResponse(
             order.table.name,
             order.status,
             order.orderItems.map { oi ->
-                GetOrderListItem(oi.menuItem?.name, oi.menuItem?.price)
+                GetOrderListItem(oi.menuItem?.name, oi.menuItem?.price, oi.quantity)
             }
     )
 }
 
 data class GetOrderListItem(
         val name: String?,
-        val price: Float?
+        val price: Float?,
+        val quantity: Int?
 )

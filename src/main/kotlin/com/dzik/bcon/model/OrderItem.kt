@@ -15,6 +15,8 @@ data class OrderItem (
         @Column(name = "menu_item_id")
         val menuItemId: Int = 0,
 
+        val quantity: Int = 0,
+
         @JsonIgnore
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "menu_item_id", insertable = false, updatable = false)

@@ -697,7 +697,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/order-lists/order/item/item.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<li class=\"list-group-item\">{{item.name}}</li>\n"
+module.exports = "<li class=\"list-group-item\">{{ item.name }} x {{ item.quantity }}</li>\n"
 
 /***/ }),
 
@@ -970,7 +970,6 @@ var Status;
     Status[Status["PENDING"] = 1] = "PENDING";
     Status[Status["CANCELLED"] = 2] = "CANCELLED";
 })(Status || (Status = {}));
-;
 //# sourceMappingURL=order.js.map
 
 /***/ }),
