@@ -113,7 +113,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\n\n<aviko-spinner></aviko-spinner>\n"
 
 /***/ }),
 
@@ -174,12 +174,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_ng2_stomp_service___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_ng2_stomp_service__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_menu_menu_component__ = __webpack_require__("../../../../../src/app/components/menu/menu.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_menu_menu_item_menu_item_component__ = __webpack_require__("../../../../../src/app/components/menu/menu-item/menu-item.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ui_spinner_spinner_module__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -220,9 +222,17 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_4__app_routing_module__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_6__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_11__angular_forms__["a" /* FormsModule */]
+            __WEBPACK_IMPORTED_MODULE_11__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_19__ui_spinner_spinner_module__["a" /* SpinnerModule */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_5__server_connection_server_connection_service__["a" /* ServerConnectionService */], __WEBPACK_IMPORTED_MODULE_9__login_login_service__["a" /* LoginService */], __WEBPACK_IMPORTED_MODULE_10__login_logged_guard__["a" /* LoggedGuard */], __WEBPACK_IMPORTED_MODULE_14_angular2_websocket_service__["WebSocketService"], __WEBPACK_IMPORTED_MODULE_15__server_connection_socket_service__["a" /* SocketService */], __WEBPACK_IMPORTED_MODULE_16_ng2_stomp_service__["StompService"]],
+        providers: [
+            __WEBPACK_IMPORTED_MODULE_5__server_connection_server_connection_service__["a" /* ServerConnectionService */],
+            __WEBPACK_IMPORTED_MODULE_9__login_login_service__["a" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_10__login_logged_guard__["a" /* LoggedGuard */],
+            __WEBPACK_IMPORTED_MODULE_14_angular2_websocket_service__["WebSocketService"],
+            __WEBPACK_IMPORTED_MODULE_15__server_connection_socket_service__["a" /* SocketService */],
+            __WEBPACK_IMPORTED_MODULE_16_ng2_stomp_service__["StompService"]
+        ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -265,6 +275,7 @@ module.exports = "<div class=\"container\">\n  <div class=\"jumbotron\">\n    <d
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_login_service__ = __webpack_require__("../../../../../src/app/login/login.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__server_connection_server_connection_service__ = __webpack_require__("../../../../../src/app/server-connection/server-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ui_spinner_spinner_service__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -278,17 +289,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LoginFormComponent = (function () {
-    function LoginFormComponent(route, router, login, server) {
+    function LoginFormComponent(route, router, login, server, spinner) {
         this.route = route;
         this.router = router;
         this.login = login;
         this.server = server;
+        this.spinner = spinner;
     }
-    LoginFormComponent.prototype.ngOnInit = function () { };
+    LoginFormComponent.prototype.ngOnInit = function () {
+        this.login.logOut();
+    };
     LoginFormComponent.prototype.loginUser = function (form) {
         var _this = this;
-        this.server.logIn(form.login, form.password).subscribe(function (success) {
+        this.spinner.start();
+        this.server.logIn(form.login, form.password)
+            .subscribe(function (success) {
+            _this.spinner.stop();
             if (success)
                 _this.router.navigateByUrl(_this.route.snapshot.queryParams['returnUrl'] || '/');
         });
@@ -301,10 +319,10 @@ LoginFormComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/components/login-form/login-form.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/login-form/login-form.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__login_login_service__["a" /* LoginService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__login_login_service__["a" /* LoginService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__login_login_service__["a" /* LoginService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__login_login_service__["a" /* LoginService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__ui_spinner_spinner_service__["a" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ui_spinner_spinner_service__["a" /* SpinnerService */]) === "function" && _e || Object])
 ], LoginFormComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=login-form.component.js.map
 
 /***/ }),
@@ -496,6 +514,8 @@ module.exports = "<bcon-menu-item\n  *ngFor=\"let menuItem of restaurant?.menu\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__ = __webpack_require__("../../../../../src/app/server-connection/server-connection.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_menu_item__ = __webpack_require__("../../../../../src/app/model/menu-item.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ui_spinner_spinner_service__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -508,15 +528,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var MenuComponent = (function () {
-    function MenuComponent(serverConnectionService) {
+    function MenuComponent(serverConnectionService, spinner, router) {
         this.serverConnectionService = serverConnectionService;
+        this.spinner = spinner;
+        this.router = router;
         this.restaurant = null;
     }
     MenuComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.spinner.start();
         this.serverConnectionService.getRestaurantDetails()
-            .subscribe(function (restaurant) { return _this.restaurant = restaurant; });
+            .subscribe(function (restaurant) {
+            _this.restaurant = restaurant;
+            _this.spinner.stop();
+        }, function () {
+            _this.router.navigate(["/login"]);
+            _this.spinner.stop();
+        });
     };
     MenuComponent.prototype.deleteItem = function (id) {
         this.restaurant.menu = this.restaurant.menu
@@ -527,8 +558,12 @@ var MenuComponent = (function () {
     };
     MenuComponent.prototype.save = function () {
         var _this = this;
+        this.spinner.start();
         this.serverConnectionService.updateRestaurantMenu(this.restaurant.menu)
-            .subscribe(function (restaurant) { return _this.restaurant = restaurant; });
+            .subscribe(function (restaurant) {
+            _this.restaurant = restaurant;
+            _this.spinner.stop();
+        });
     };
     return MenuComponent;
 }());
@@ -538,10 +573,10 @@ MenuComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/components/menu/menu.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/menu/menu.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ui_spinner_spinner_service__["a" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ui_spinner_spinner_service__["a" /* SpinnerService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], MenuComponent);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=menu.component.js.map
 
 /***/ }),
@@ -578,6 +613,8 @@ module.exports = "<!--<button (click)=\"updateOrders()\">Refresh</button>-->\n<b
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrderListsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__ = __webpack_require__("../../../../../src/app/server-connection/server-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ui_spinner_spinner_service__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -589,9 +626,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var OrderListsComponent = (function () {
-    function OrderListsComponent(server) {
+    function OrderListsComponent(server, spinner, router) {
         this.server = server;
+        this.spinner = spinner;
+        this.router = router;
         this.orders = [];
     }
     OrderListsComponent.prototype.ngOnInit = function () {
@@ -601,9 +642,14 @@ var OrderListsComponent = (function () {
     };
     OrderListsComponent.prototype.updateOrders = function () {
         var _this = this;
-        //TODO: keep subscriptions in variables, delete on destructor
-        this.server.allOrders().subscribe(function (orders) {
+        this.spinner.start();
+        this.server.allOrders()
+            .subscribe(function (orders) {
             _this.orders = orders;
+            _this.spinner.stop();
+        }, function () {
+            _this.router.navigate(["/login"]);
+            _this.spinner.stop();
         });
     };
     OrderListsComponent.prototype.orderStatusChanged = function (event) {
@@ -622,10 +668,10 @@ OrderListsComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/components/order-lists/order-lists.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/order-lists/order-lists.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__server_connection_server_connection_service__["a" /* ServerConnectionService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ui_spinner_spinner_service__["a" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ui_spinner_spinner_service__["a" /* SpinnerService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], OrderListsComponent);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=order-lists.component.js.map
 
 /***/ }),
@@ -1144,6 +1190,148 @@ SocketService = __decorate([
 
 var _a;
 //# sourceMappingURL=socket.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/ui/spinner/spinner.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"spinner-container ngs-loading\" *ngIf=\"visible\">\n  <div class=\"ngs-loader\"></div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/ui/spinner/spinner.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".spinner-container {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 100000; }\n  .spinner-container.ngs-loading {\n    background-image: none;\n    display: -webkit-box !important;\n    display: -ms-flexbox !important;\n    display: flex !important;\n    -webkit-box-pack: center !important;\n        -ms-flex-pack: center !important;\n            justify-content: center !important;\n    -webkit-box-align: center !important;\n        -ms-flex-align: center !important;\n            align-items: center !important; }\n    .spinner-container.ngs-loading .ngs-loader {\n      border: 4px solid #f7f7f7;\n      /* Light grey */\n      border-top: 4px solid #00aeef;\n      /* Blue */\n      border-radius: 50%;\n      width: 100px;\n      height: 100px;\n      -webkit-animation: spin 1s linear infinite;\n              animation: spin 1s linear infinite; }\n\n@-webkit-keyframes spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/ui/spinner/spinner.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnerComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__spinner_service__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SpinnerComponent = (function () {
+    function SpinnerComponent(spinnerService) {
+        this.spinnerService = spinnerService;
+        this.visible = false;
+    }
+    SpinnerComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.visibilitySubscription = this.spinnerService.stateChange
+            .subscribe(function (visible) { return _this.visible = visible; });
+    };
+    SpinnerComponent.prototype.ngOnDestroy = function () {
+        this.visibilitySubscription.unsubscribe();
+    };
+    return SpinnerComponent;
+}());
+SpinnerComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'aviko-spinner',
+        template: __webpack_require__("../../../../../src/app/ui/spinner/spinner.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/ui/spinner/spinner.component.scss")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__spinner_service__["a" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__spinner_service__["a" /* SpinnerService */]) === "function" && _a || Object])
+], SpinnerComponent);
+
+var _a;
+//# sourceMappingURL=spinner.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/ui/spinner/spinner.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnerModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__spinner_component__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__spinner_service__ = __webpack_require__("../../../../../src/app/ui/spinner/spinner.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var SpinnerModule = (function () {
+    function SpinnerModule() {
+    }
+    return SpinnerModule;
+}());
+SpinnerModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+        ],
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_2__spinner_component__["a" /* SpinnerComponent */]
+        ],
+        providers: [
+            __WEBPACK_IMPORTED_MODULE_3__spinner_service__["a" /* SpinnerService */]
+        ],
+        exports: [
+            __WEBPACK_IMPORTED_MODULE_2__spinner_component__["a" /* SpinnerComponent */]
+        ]
+    })
+], SpinnerModule);
+
+//# sourceMappingURL=spinner.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/ui/spinner/spinner.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnerService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
+
+var SpinnerService = (function () {
+    function SpinnerService() {
+        this.stateChange = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["Subject"]();
+    }
+    SpinnerService.prototype.start = function () {
+        this.stateChange.next(true);
+    };
+    SpinnerService.prototype.stop = function () {
+        this.stateChange.next(false);
+    };
+    return SpinnerService;
+}());
+
+//# sourceMappingURL=spinner.service.js.map
 
 /***/ }),
 
