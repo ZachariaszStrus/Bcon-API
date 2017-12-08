@@ -1,5 +1,6 @@
 package com.dzik.bcon.model
 
+import com.dzik.bcon.model.utils.PaymentOption
 import javax.persistence.*
 
 
@@ -19,7 +20,11 @@ data class Restaurant (
         @OneToMany(mappedBy = "restaurant", cascade = [(CascadeType.ALL)])
         val tables: MutableList<RestaurantTable> = mutableListOf(),
 
-        val imageUrl: String = "http://lorempixel.com/400/400/"
+        val imageUrl: String = "http://lorempixel.com/400/400/",
+
+        @ElementCollection
+        @Enumerated(EnumType.STRING)
+        val paymentOptions: MutableList<PaymentOption> = mutableListOf(PaymentOption.CASH, PaymentOption.CARD)
 ) {
 
 
