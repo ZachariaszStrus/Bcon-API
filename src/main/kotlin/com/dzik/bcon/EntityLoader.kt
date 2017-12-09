@@ -45,8 +45,20 @@ class EntityLoader(
                 )
         )
 
+        val user3 = User(
+                username = "dawid",
+                password = passwordEncoder.encode("1234"),
+                roles = listOf(
+                        Role(
+                                name = UserRoleType.RESTAURANT_EMPLOYEE,
+                                restaurantId = r2?.id
+                        )
+                )
+        )
+
         userRepository.save(user)
         userRepository.save(user2)
+        userRepository.save(user3)
     }
 
     fun save1(): Restaurant? {
@@ -78,24 +90,6 @@ class EntityLoader(
         beacon.restaurantTable = table
 
         restaurant.tables.add(table)
-
-        // Beacon 2 / table 2
-
-        var beacon2 = Beacon(
-                namespace = "edd1ebeac04e5defa017",
-                instance = "66a3678ef96b",
-                restaurant = restaurant
-        )
-
-        val table2 = RestaurantTable(
-                number = 2,
-                beacon = beacon2,
-                restaurant = restaurant
-        )
-
-        beacon2.restaurantTable = table2
-
-        restaurant.tables.add(table2)
 
         return restaurantRepository.save(restaurant)
     }
@@ -130,5 +124,38 @@ class EntityLoader(
         beacon2.restaurantTable = table2
 
         return restaurantRepository.save(restaurant2)
+    }
+
+    fun save3(): Restaurant? {
+        val menuItems = HashSet<MenuItem>()
+        menuItems.add(MenuItem(name = "Pizza", price = 20.99F, imageUrl = "http://lorempixel.com/405/405/food/"))
+        menuItems.add(MenuItem(name = "Mom's spaghetti", price = 14.99F, imageUrl = "http://lorempixel.com/404/404/food/"))
+        menuItems.add(MenuItem(name = "Pasta", price = 14.99F, imageUrl = "http://lorempixel.com/403/403/food/"))
+
+        var restaurant = Restaurant(
+                name = "Italiano",
+                menuItems = menuItems,
+                imageUrl = "http://lorempixel.com/1067/600/food/"
+        )
+
+        // Beacon 2 / table 2
+
+        var beacon2 = Beacon(
+                namespace = "edd1ebeac04e5defa017",
+                instance = "66a3678ef96b",
+                restaurant = restaurant
+        )
+
+        val table2 = RestaurantTable(
+                number = 2,
+                beacon = beacon2,
+                restaurant = restaurant
+        )
+
+        beacon2.restaurantTable = table2
+
+        restaurant.tables.add(table2)
+
+        return restaurantRepository.save(restaurant)
     }
 }
