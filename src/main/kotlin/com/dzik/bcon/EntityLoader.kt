@@ -22,6 +22,7 @@ class EntityLoader(
     fun init() {
         val r1 = save1()
         val r2 = save2()
+        val r3 = save3()
 
         val user = User(
                 username = "zaki",
@@ -51,7 +52,7 @@ class EntityLoader(
                 roles = listOf(
                         Role(
                                 name = UserRoleType.RESTAURANT_EMPLOYEE,
-                                restaurantId = r2?.id
+                                restaurantId = r3?.id
                         )
                 )
         )
